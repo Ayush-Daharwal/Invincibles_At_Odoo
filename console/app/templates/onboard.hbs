@@ -1,3 +1,13 @@
-<div class="onboard-route-wrapper">
+<div class="h-[100dvh] flex flex-col md:flex-row font-sans w-[100dvw] bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-hidden">
     {{outlet}}
+    <section class="hidden md:block flex-1 relative p-4">
+        <div class="animate-slide-right animate-delay-300 absolute inset-4 rounded-3xl bg-cover bg-center shadow-2xl" style="background-image: url('https://images.unsplash.com/photo-1519503786989-f1be3e1ecfee?w=2160&q=80')"></div>
+        <div class="absolute inset-4 rounded-3xl bg-gradient-to-br from-violet-900/60 to-black/40"></div>
+        <div class="absolute inset-0 flex flex-col items-start justify-end p-12 pointer-events-none">
+            <div class="animate-testimonial animate-delay-700 text-white max-w-sm">
+                <p class="text-3xl font-bold leading-tight mb-3">Join thousands of transit operators managing smarter.</p>
+                <p class="text-white/70 text-sm">Set up your organization in minutes and start optimizing your fleet today.</p>
+            </div>
+        </div>
+    </section>
 </div>
