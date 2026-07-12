@@ -1,41 +1,69 @@
-# Testing Process: Unit and Integration Testing
+# Comprehensive Testing Process: Unit and Integration Testing
 
-Our testing strategy is divided into two primary phases: **Unit Testing** and **Integration Testing**. The goal is to ensure individual functions work correctly in isolation and that different components of the application work together seamlessly.
+This document outlines the detailed end-to-end testing strategy for our monorepo architecture, encompassing both our frontend applications (Ember.js/React) and our backend engine packages (PHP/Node.js). Our objective is to maintain high code reliability and ensure seamless integration across all microservices and user interfaces.
 
-## 1. Unit Testing
+## 1. Architecture Overview
+Our project is a monorepo consisting of multiple independent packages, engines, and frontend applications (e.g., `storefront`, `vroom-engine`, `fleetops-engine`). Testing is tailored to the specific technology stack of each package:
+- **Frontend / UI Packages:** Primarily tested using Ember CLI testing tools and QUnit/Mocha.
+- **Backend / Engine Packages:** Tested using PHPUnit (for PHP-based engines like `vroom-engine`) and Jest (for Node.js-based services).
 
-Unit testing involves testing individual functions, methods, or components in isolation to verify they produce the expected output for a given input.
+---
 
-### How We Did It
-- **Framework:** We used **Jest** as our primary testing framework due to its rich feature set, assertion library, and built-in mocking capabilities.
-- **Scope:** We focused on writing unit tests for our core business logic, utility functions, and individual controller methods.
-- **Mocking:** We heavily utilized Jest's mocking features (`jest.mock`) to isolate the code under test. For example, when testing a controller, we mocked the database service or external APIs so that the test only evaluated the controller's logic (e.g., HTTP response codes, error handling) without making actual database queries.
-- **Execution:** Tests are collocated with their respective files (e.g., `vehicle.controller.test.ts` next to `vehicle.controller.ts`) and run via the `npm test` script.
+## 2. Unit Testing Strategy
 
-**Example Process:**
-1. Define the inputs for the function.
-2. Mock dependencies (e.g., database models or external services).
-3. Call the function.
-4. Assert that the function returned the correct output and that the mocked dependencies were called with the correct arguments.
+Unit tests are designed to isolate individual functions, components, or classes, verifying that they perform their specific logic correctly without relying on external dependencies like databases or third-party APIs.
 
-## 2. Integration Testing
+### Backend Unit Testing (PHP / Node.js)
+- **Frameworks:** PHPUnit (PHP), Jest (Node/TypeScript).
+- **Execution:** 
+  - PHP: Run via `vendor/bin/phpunit --testsuite Unit`
+  - Node: Run via `npm run test:unit`
+- **Mocking & Isolation:** 
+  - We use Mockery for PHP and Jest's built-in mocking (`jest.mock()`) for Node.js. 
+  - Database calls, cache interactions, and external API requests are rigorously mocked.
+  - Controllers are tested by directly injecting mock request objects and asserting on the returned response structure.
+- **Coverage:** We aim for at least 80% code coverage on core engine components (`vroom-engine`, `fleetops-engine`).
 
-Integration testing involves testing how different parts of the system work together. This ensures that the database, external APIs, and our application logic communicate properly.
+### Frontend Unit Testing (Ember / React)
+- **Frameworks:** QUnit (Ember core packages), Jest/React Testing Library.
+- **Component Testing:** We render components in isolation. We pass mock data as properties/arguments and assert that the DOM updates as expected.
+- **Action Testing:** We simulate user interactions (clicks, keyboard input) and verify that the correct internal actions or closure actions are triggered.
+- **Execution:** Run via `ember test` or `npm run test:components`.
 
-### How We Did It
-- **Tools:** We used **Jest** alongside **Supertest** to make HTTP requests to our application endpoints.
-- **Scope:** We tested the entire request-response cycle. This includes hitting the API endpoints, processing the request through middleware (like authentication or validation), executing the controller logic, querying a test database, and returning the response.
-- **Test Database:** We utilized a dedicated test database (or an in-memory database like SQLite/MongoDB Memory Server) to ensure that tests do not interfere with development or production data. Before each test suite, the database is seeded with necessary dummy data, and after the tests, it is cleaned up.
-- **Execution:** We structured these tests under a separate `tests/integration/` directory to distinguish them from unit tests.
+---
 
-**Example Process:**
-1. Set up the test database and seed initial data.
-2. Use Supertest to send an HTTP request (e.g., `GET /api/vehicles`) to the Express app.
-3. Assert the HTTP status code (e.g., `200 OK`).
-4. Assert the structure and content of the response body against expected database records.
-5. Tear down or rollback the database state after the test completes.
+## 3. Integration Testing Strategy
+
+Integration tests evaluate how multiple units work together. This is where we test the interaction between controllers, services, databases, and the network layer.
+
+### Backend Integration Testing
+- **Objective:** Ensure the API endpoints return the correct data formats and status codes when interacting with a real (but isolated) database.
+- **Database Setup:** 
+  - We use a dedicated, ephemeral test database (e.g., SQLite in-memory or a dedicated test schema).
+  - Database transactions are utilized; we begin a transaction before each test and roll it back afterward to maintain a pristine state (`RefreshDatabase` trait in PHP/Laravel).
+- **API Testing:** We use testing utilities (like Laravel's HTTP testing methods or Supertest in Node) to make mock HTTP requests to our endpoints.
+- **Validation:** We assert:
+  1. The HTTP Status Code (e.g., 200, 201, 403, 404).
+  2. The JSON payload structure matches our OpenAPI/Swagger specifications.
+  3. The database state has been correctly updated (e.g., a new record was inserted).
+
+### Frontend Integration Testing
+- **Objective:** Test how components interact with each other and the application state (Routing, Services, Controllers).
+- **Ember Application Tests (Acceptance Tests):**
+  - We simulate complete user journeys (e.g., logging in, navigating to the dashboard, and creating a new order).
+  - **Network Mocking:** We use tools like Mirage JS or MSW (Mock Service Worker) to intercept network requests and return mock JSON responses. This ensures frontend tests do not require the backend to be running.
+  - **DOM Assertions:** We use helpers like `click()`, `fillIn()`, and `visit()` to traverse the application and assert the presence of specific elements.
+
+---
+
+## 4. Continuous Integration (CI) Pipeline Workflow
+
+To ensure no broken code is merged into the `main` branch, all tests are automatically executed via our CI/CD pipelines (e.g., GitHub Actions / GitLab CI).
+
+1. **Linting & Static Analysis:** Before tests run, code is checked against ESLint, Prettier, and PHPStan to catch syntax and typing errors.
+2. **Parallel Test Execution:** Tests are split across multiple runners. Frontend and Backend test suites run concurrently to speed up the build process.
+3. **Database Migrations:** The CI pipeline automatically spins up a Docker container with the necessary database (MySQL/Postgres), runs all migrations, and executes the integration test suites.
+4. **Failure Protocol:** If any test fails, the pull request is blocked from being merged until the developer resolves the issue.
 
 ## Summary
-- **Unit Tests** run quickly and verify the internal logic of individual pieces.
-- **Integration Tests** are slightly slower but give us confidence that our API endpoints and database connections function properly together.
-- This dual approach ensures high code coverage and reliability before any code is deployed to production.
+By rigorously separating our testing layers—employing fast **Unit Tests** for immediate developer feedback and comprehensive **Integration Tests** to guarantee system-wide health—we ensure a robust, reliable, and scalable application architecture across all our monorepo packages.
