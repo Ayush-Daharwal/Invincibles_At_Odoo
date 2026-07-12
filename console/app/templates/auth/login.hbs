@@ -1,106 +1,110 @@
-<div>
-    <LinkTo @route="console" class="flex items-center justify-center">
-        <LogoIcon @brand={{@brand}} @size="12" class="rounded-md" />
-    </LinkTo>
-    <h2 class="mt-6 mb-3 text-3xl font-extrabold leading-9 text-center text-gray-900 dark:text-gray-100">
-        {{t "auth.login.title"}}
-    </h2>
-</div>
-
-{{#if (gte this.failedAttempts 3)}}
-    <div class="flex flex-col flex-grow-0 flex-shrink-0 text-sm bg-yellow-800 border border-yellow-600 px-2 py-2 rounded-md text-yellow-100 my-4 transition-all">
-        <div class="flex flex-row items-start mb-2">
-            <div class="w-8 flex-grow-0 flex-shrink-0">
-                <FaIcon @icon="triangle-exclamation" @size="xl" class="pt-1" />
-            </div>
-            <div class="flex-1">
-                <p class="flex-1 text-sm text-yellow-100">
-                    {{t "auth.login.failed-attempt.message" htmlSafe=true}}
-                </p>
-            </div>
-        </div>
-        <Button
-            @text={{t "auth.login.failed-attempt.button-text"}}
-            @type="link"
-            class="text-yellow-100"
-            @wrapperClass="px-4 py-2 bg-gray-900 bg-opacity-25 hover:opacity-50"
-            @onClick={{this.forgotPassword}}
-        />
-    </div>
-{{/if}}
-
-<form class="mt-8" {{on "submit" this.login}}>
-    <input type="hidden" name="remember" value="true" />
-    <div class="rounded-md shadow-sm">
-        <div>
-            <Input
-                @value={{this.identity}}
-                aria-label={{t "auth.login.form.email-label"}}
-                name="email"
-                @type="email"
-                autocomplete="username"
-                required
-                class="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-t-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 dark:text-white dark:bg-gray-700 dark:border-gray-900"
-                placeholder={{t "auth.login.form.email-label"}}
-                disabled={{this.isLoading}}
-            />
-        </div>
-        <div class="-mt-px">
-            <Input
-                @value={{this.password}}
-                aria-label={{t "auth.login.form.password-label"}}
-                name="password"
-                @type="password"
-                autocomplete="current-password"
-                required
-                class="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-b-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 dark:text-white dark:bg-gray-700 dark:border-gray-900"
-                placeholder={{t "auth.login.form.password-label"}}
-                disabled={{this.isLoading}}
-            />
-        </div>
+<div class="flex flex-col gap-6">
+    <div class="mb-4">
+        <LinkTo @route="console" class="inline-block">
+            <LogoIcon @brand={{@brand}} @size="12" class="rounded-md" />
+        </LinkTo>
     </div>
 
-    <div class="flex items-center justify-between mt-6">
-        <div class="flex items-center">
-            <Input id="rememberMe" @type="checkbox" @checked={{this.rememberMe}} disabled={{this.isLoading}} class="w-4 h-4 transition duration-150 ease-in-out form-checkbox text-sky-500" />
-            <label for="rememberMe" class="block ml-2 text-sm leading-5 text-gray-900 dark:text-gray-100">
-                {{t "auth.login.form.remember-me-label"}}
+    <h1 class="animate-element animate-delay-100 text-4xl md:text-5xl font-semibold leading-tight">
+        <span class="font-light tracking-tighter">{{t "auth.login.title"}}</span>
+    </h1>
+    <p class="animate-element animate-delay-200 text-gray-500 dark:text-gray-400">
+        Access your account and continue your journey with us
+    </p>
+
+    {{#if (gte this.failedAttempts 3)}}
+        <div class="flex flex-col flex-grow-0 flex-shrink-0 text-sm bg-yellow-800 border border-yellow-600 px-2 py-2 rounded-md text-yellow-100 my-4 transition-all animate-element">
+            <div class="flex flex-row items-start mb-2">
+                <div class="w-8 flex-grow-0 flex-shrink-0">
+                    <FaIcon @icon="triangle-exclamation" @size="xl" class="pt-1" />
+                </div>
+                <div class="flex-1">
+                    <p class="flex-1 text-sm text-yellow-100">
+                        {{t "auth.login.failed-attempt.message" htmlSafe=true}}
+                    </p>
+                </div>
+            </div>
+            <Button
+                @text={{t "auth.login.failed-attempt.button-text"}}
+                @type="link"
+                class="text-yellow-100"
+                @wrapperClass="px-4 py-2 bg-gray-900 bg-opacity-25 hover:opacity-50"
+                @onClick={{this.forgotPassword}}
+            />
+        </div>
+    {{/if}}
+
+    <form class="space-y-5" {{on "submit" this.login}}>
+        <input type="hidden" name="remember" value="true" />
+        
+        <div class="animate-element animate-delay-300">
+            <label class="text-sm font-medium text-gray-500 dark:text-gray-400">{{t "auth.login.form.email-label"}}</label>
+            <div class="mt-1 rounded-2xl border border-gray-300 dark:border-gray-700 bg-black/5 dark:bg-white/5 backdrop-blur-sm transition-colors focus-within:border-violet-400/70 focus-within:bg-violet-500/10 overflow-hidden">
+                <Input
+                    @value={{this.identity}}
+                    name="email"
+                    @type="email"
+                    autocomplete="username"
+                    required
+                    class="w-full bg-transparent text-sm p-4 focus:outline-none dark:text-white border-none outline-none ring-0"
+                    placeholder={{t "auth.login.form.email-label"}}
+                    disabled={{this.isLoading}}
+                />
+            </div>
+        </div>
+
+        <div class="animate-element animate-delay-400">
+            <label class="text-sm font-medium text-gray-500 dark:text-gray-400">{{t "auth.login.form.password-label"}}</label>
+            <div class="mt-1 relative rounded-2xl border border-gray-300 dark:border-gray-700 bg-black/5 dark:bg-white/5 backdrop-blur-sm transition-colors focus-within:border-violet-400/70 focus-within:bg-violet-500/10 overflow-hidden">
+                <Input
+                    @value={{this.password}}
+                    name="password"
+                    @type="password"
+                    autocomplete="current-password"
+                    required
+                    class="w-full bg-transparent text-sm p-4 pr-12 focus:outline-none dark:text-white border-none outline-none ring-0"
+                    placeholder={{t "auth.login.form.password-label"}}
+                    disabled={{this.isLoading}}
+                />
+            </div>
+        </div>
+
+        <div class="animate-element animate-delay-500 flex items-center justify-between text-sm">
+            <label class="flex items-center gap-3 cursor-pointer">
+                <Input @type="checkbox" @checked={{this.rememberMe}} disabled={{this.isLoading}} class="w-4 h-4 text-violet-500 bg-transparent rounded border-gray-300 focus:ring-violet-500 transition-colors" />
+                <span class="text-gray-900 dark:text-gray-100">{{t "auth.login.form.remember-me-label"}}</span>
             </label>
-        </div>
-
-        <div class="text-sm leading-5">
-            <a
-                href="javascript:;"
-                {{on "click" this.forgotPassword}}
-                disabled={{this.isLoading}}
-                class="font-medium transition duration-150 ease-in-out text-sky-500 hover:text-sky-400 focus:outline-none focus:underline"
-            >
+            <a href="javascript:;" {{on "click" this.forgotPassword}} class="hover:underline text-violet-500 transition-colors font-medium">
                 {{t "auth.login.form.forgot-password-label"}}
             </a>
         </div>
-    </div>
 
-    <div class="mt-6 space-y-4">
-        <Button
-            @buttonType="submit"
-            @type="primary"
-            @text={{t "auth.login.form.sign-in-button"}}
-            @icon="lock"
-            @wrapperClass="btn-block"
-            @isLoading={{this.isLoading}}
-            @onClick={{this.login}}
-        />
-        <Button @text={{t "auth.login.form.create-account-button"}} @icon="briefcase" @wrapperClass="btn-block" @disabled={{this.isLoading}} @onClick={{fn (transition-to "onboard")}} />
-        <RegistryYield @type="menu" @registry="auth:login" as |menuItem|>
+        <div class="animate-element animate-delay-600 mt-6">
             <Button
-                @text={{menuItem.title}}
-                @icon={{menuItem.icon}}
-                @type={{menuItem.type}}
-                @wrapperClass={{menuItem.wrapperClass}}
-                @disabled={{this.isLoading}}
-                @onClick={{menuItem.onClick}}
-                @permission={{menuItem.permission}}
+                @buttonType="submit"
+                @text={{t "auth.login.form.sign-in-button"}}
+                @isLoading={{this.isLoading}}
+                @wrapperClass="w-full rounded-2xl bg-violet-600 py-4 font-medium text-white hover:bg-violet-700 transition-colors flex justify-center items-center shadow-md shadow-violet-500/20"
             />
-        </RegistryYield>
-    </div>
-</form>
+        </div>
+        
+        <div class="animate-element animate-delay-700 relative flex items-center justify-center mt-6">
+            <span class="w-full border-t border-gray-300 dark:border-gray-700"></span>
+            <span class="px-4 text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 absolute">Or continue with</span>
+        </div>
+
+        <button type="button" class="animate-element animate-delay-800 w-full flex items-center justify-center gap-3 border border-gray-300 dark:border-gray-700 rounded-2xl py-4 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors mt-6 font-medium text-gray-700 dark:text-gray-200 shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 48 48">
+                <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s12-5.373 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-2.641-.21-5.236-.611-7.743z" />
+                <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" />
+                <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" />
+                <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.022 35.026 44 30.038 44 24c0-2.641-.21-5.236-.611-7.743z" />
+            </svg>
+            Continue with Google
+        </button>
+
+        <p class="animate-element animate-delay-900 text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
+            New to our platform? <a href="javascript:;" {{on "click" this.transitionToOnboard}} class="text-violet-500 hover:underline transition-colors font-medium">Create Account</a>
+        </p>
+    </form>
+</div>
