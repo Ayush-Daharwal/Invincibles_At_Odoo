@@ -12,7 +12,7 @@ services:
     image: mysql:8.0-oracle
     restart: unless-stopped
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - "./docker/database/:/docker-entrypoint-initdb.d/"
       - "./docker/database/mysql:/var/lib/mysql"
@@ -91,6 +91,7 @@ services:
     volumes:
       - ./api/.env:/fleetbase/api/.env
       - ./api/storage/app:/fleetbase/api/storage/app
+      - ./api/public/frankenphp-worker.php:/fleetbase/api/public/frankenphp-worker.php
     environment:
       ENVIRONMENT: development
       DATABASE_URL: "mysql://root@database/fleetbase"
