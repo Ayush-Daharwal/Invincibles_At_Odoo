@@ -126,7 +126,6 @@
         "eslint-plugin-qunit": "^8.1.2",
         "fast-glob": "^3.3.2",
         "fs": "0.0.1-security",
-        "inter-ui": "^3.19.3",
         "loader.js": "^4.7.0",
         "normalize.css": "^8.0.1",
         "postcss": "^8.4.41",
