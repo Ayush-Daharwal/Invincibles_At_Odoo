@@ -38,7 +38,7 @@
     "url": "https://github.com/transitops/leaflet-routing-machine/issues"
   },
   "homepage": "https://github.com/transitops/leaflet-routing-machine",
-  "main": "./dist/@transitops/leaflet-routing-machine.min.js",
+  "main": "./dist/cjs/index.js",
   "devDependencies": {
     "@babel/core": "^7.14.0",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
