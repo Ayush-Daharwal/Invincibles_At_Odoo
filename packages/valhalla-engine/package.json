@@ -42,9 +42,9 @@
     },
     "dependencies": {
         "@babel/core": "^7.23.2",
-        "@transitops/ember-core": "^0.3.18",
-        "@transitops/ember-ui": "^0.3.29",
-        "@transitops/leaflet-routing-machine": "^3.2.17",
+        "@transitops/ember-core": "workspace:*",
+        "@transitops/ember-ui": "workspace:*",
+        "@transitops/leaflet-routing-machine": "workspace:*",
         "@fortawesome/ember-fontawesome": "^2.0.0",
         "@fortawesome/fontawesome-svg-core": "6.4.0",
         "@fortawesome/free-brands-svg-icons": "6.4.0",

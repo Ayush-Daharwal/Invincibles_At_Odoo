@@ -42,7 +42,7 @@
         "@embroider/addon": "^0.30.0",
         "@embroider/macros": "^1.8.3",
         "@event-calendar/core": "^5.6.0",
-        "@transitops/ember-accounting": "npm:@transitops/ember-accounting@^0.0.1",
+        "@transitops/ember-accounting": "workspace:*",
         "@floating-ui/dom": "^1.0.1",
         "@fortawesome/ember-fontawesome": "^2.0.0",
         "@fortawesome/fontawesome-svg-core": "6.4.0",

@@ -7,9 +7,9 @@ publicHoistPattern:
   - "*ember-ui*"
   - "*fleetops-data*"
 overrides:
-  "@transitops/fleetops-data": "^0.1.40"
-  "@transitops/ember-core": "^0.3.24"
-  "@transitops/ember-ui": "^0.3.41"
+  "@transitops/fleetops-data": "workspace:*"
+  "@transitops/ember-core": "workspace:*"
+  "@transitops/ember-ui": "workspace:*"
 allowBuilds:
   "@fortawesome/fontawesome-common-types": false
   "@fortawesome/fontawesome-svg-core": false
