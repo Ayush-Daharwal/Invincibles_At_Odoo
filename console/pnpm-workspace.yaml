@@ -1,0 +1,19 @@
+packages:
+  - "../packages/*"
+linkWorkspacePackages: deep
+preferWorkspacePackages: true
+publicHoistPattern:
+  - "*ember-core*"
+  - "*ember-ui*"
+  - "*fleetops-data*"
+overrides:
+  "@transitops/fleetops-data": "workspace:*"
+  "@transitops/ember-core": "workspace:*"
+  "@transitops/ember-ui": "workspace:*"
+allowBuilds:
+  "@fortawesome/fontawesome-common-types": false
+  "@fortawesome/fontawesome-svg-core": false
+  "@fortawesome/free-brands-svg-icons": false
+  "@fortawesome/free-solid-svg-icons": false
+  core-js: false
+  fsevents: false

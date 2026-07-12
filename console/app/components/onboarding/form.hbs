@@ -1,0 +1,112 @@
+<div class="flex-1 flex flex-col items-center justify-center p-8 overflow-y-auto">
+    <div class="w-full max-w-md">
+        <div class="flex flex-col gap-5">
+
+            {{!-- Logo --}}
+            <div class="animate-element animate-delay-100 mb-2">
+                <Image src={{@brand.logo_url}} @fallbackSrc="/images/transitops-logo-svg.svg" alt={{t "app.name"}} height="48" class="h-10 object-contain" />
+            </div>
+
+            {{!-- Heading --}}
+            <div>
+                <h1 class="animate-element animate-delay-100 text-4xl md:text-5xl font-semibold leading-tight">
+                    <span class="font-light tracking-tighter">{{t "onboard.index.title"}}</span>
+                </h1>
+                <p class="animate-element animate-delay-200 text-gray-500 dark:text-gray-400 mt-2">
+                    Create your organization and start managing your fleet in minutes.
+                </p>
+            </div>
+
+            {{!-- Error --}}
+            {{#if this.error}}
+                <div class="animate-element flex items-start gap-3 rounded-2xl bg-red-500/10 border border-red-500/30 px-4 py-3 text-red-600 dark:text-red-400 text-sm">
+                    <FaIcon @icon="exclamation-triangle" class="mt-0.5 flex-shrink-0" />
+                    <p>{{this.error}}</p>
+                </div>
+            {{/if}}
+
+            {{!-- Form --}}
+            <form class="space-y-4" {{on "submit" (perform this.onboard)}}>
+
+                {{!-- Full Name --}}
+                <div class="animate-element animate-delay-300">
+                    <label class="text-sm font-medium text-gray-500 dark:text-gray-400">{{t "onboard.index.full-name"}}</label>
+                    <div class="mt-1 rounded-2xl border border-gray-300 dark:border-gray-700 bg-black/5 dark:bg-white/5 backdrop-blur-sm transition-colors focus-within:border-violet-400/70 focus-within:bg-violet-500/10 overflow-hidden">
+                        <Input @value={{this.name}} @type="text" placeholder={{t "onboard.index.full-name"}} class="w-full bg-transparent text-sm p-4 focus:outline-none dark:text-white border-none outline-none ring-0" />
+                    </div>
+                </div>
+
+                {{!-- Email --}}
+                <div class="animate-element animate-delay-350">
+                    <label class="text-sm font-medium text-gray-500 dark:text-gray-400">{{t "onboard.index.your-email"}}</label>
+                    <div class="mt-1 rounded-2xl border border-gray-300 dark:border-gray-700 bg-black/5 dark:bg-white/5 backdrop-blur-sm transition-colors focus-within:border-violet-400/70 focus-within:bg-violet-500/10 overflow-hidden">
+                        <Input @value={{this.email}} @type="email" placeholder={{t "onboard.index.your-email"}} class="w-full bg-transparent text-sm p-4 focus:outline-none dark:text-white border-none outline-none ring-0" />
+                    </div>
+                </div>
+
+                {{!-- Phone --}}
+                <div class="animate-element animate-delay-400">
+                    <label class="text-sm font-medium text-gray-500 dark:text-gray-400">{{t "onboard.index.phone"}}</label>
+                    <div class="mt-1 rounded-2xl border border-gray-300 dark:border-gray-700 bg-black/5 dark:bg-white/5 backdrop-blur-sm transition-colors focus-within:border-violet-400/70 focus-within:bg-violet-500/10 overflow-hidden">
+                        <PhoneInput @onInput={{fn (mut this.phone)}} class="w-full bg-transparent text-sm p-4 focus:outline-none dark:text-white border-none outline-none ring-0" />
+                    </div>
+                </div>
+
+                {{!-- Organization --}}
+                <div class="animate-element animate-delay-450">
+                    <label class="text-sm font-medium text-gray-500 dark:text-gray-400">{{t "onboard.index.organization-name"}}</label>
+                    <div class="mt-1 rounded-2xl border border-gray-300 dark:border-gray-700 bg-black/5 dark:bg-white/5 backdrop-blur-sm transition-colors focus-within:border-violet-400/70 focus-within:bg-violet-500/10 overflow-hidden">
+                        <Input @value={{this.organization_name}} @type="text" placeholder={{t "onboard.index.organization-name"}} class="w-full bg-transparent text-sm p-4 focus:outline-none dark:text-white border-none outline-none ring-0" />
+                    </div>
+                </div>
+
+                {{!-- Password --}}
+                <div class="animate-element animate-delay-500">
+                    <label class="text-sm font-medium text-gray-500 dark:text-gray-400">{{t "onboard.index.password"}}</label>
+                    <div class="mt-1 rounded-2xl border border-gray-300 dark:border-gray-700 bg-black/5 dark:bg-white/5 backdrop-blur-sm transition-colors focus-within:border-violet-400/70 focus-within:bg-violet-500/10 overflow-hidden">
+                        <Input @value={{this.password}} @type="password" placeholder={{t "onboard.index.password"}} class="w-full bg-transparent text-sm p-4 focus:outline-none dark:text-white border-none outline-none ring-0" />
+                    </div>
+                </div>
+
+                {{!-- Confirm Password --}}
+                <div class="animate-element animate-delay-550">
+                    <label class="text-sm font-medium text-gray-500 dark:text-gray-400">{{t "onboard.index.confirm-password"}}</label>
+                    <div class="mt-1 rounded-2xl border border-gray-300 dark:border-gray-700 bg-black/5 dark:bg-white/5 backdrop-blur-sm transition-colors focus-within:border-violet-400/70 focus-within:bg-violet-500/10 overflow-hidden">
+                        <Input @value={{this.password_confirmation}} @type="password" placeholder={{t "onboard.index.confirm-password"}} class="w-full bg-transparent text-sm p-4 focus:outline-none dark:text-white border-none outline-none ring-0" />
+                    </div>
+                </div>
+
+                {{!-- Submit --}}
+                <div class="animate-element animate-delay-600 pt-2">
+                    <button
+                        type="submit"
+                        disabled={{not this.filled}}
+                        class="w-full rounded-2xl bg-violet-600 py-4 font-medium text-white hover:bg-violet-700 transition-colors shadow-md shadow-violet-500/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                        {{#if this.onboard.isRunning}}
+                            <span class="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                            Creating account...
+                        {{else}}
+                            {{t "onboard.index.continue-button-text"}}
+                        {{/if}}
+                    </button>
+                </div>
+
+                <RegistryYield @registry="onboard" as |YieldedComponent ctx|>
+                    <YieldedComponent @context={{ctx}} />
+                </RegistryYield>
+
+            </form>
+
+            {{!-- Back to login --}}
+            <p class="animate-element animate-delay-700 text-center text-sm text-gray-500 dark:text-gray-400 mt-2">
+                Already have an account? <LinkTo @route="auth.login" class="text-violet-500 hover:underline transition-colors font-medium">Sign In</LinkTo>
+            </p>
+
+            <div class="flex justify-center mt-2">
+                <TransitopsAttribution />
+            </div>
+
+        </div>
+    </div>
+</div>

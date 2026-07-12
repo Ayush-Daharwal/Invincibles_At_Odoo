@@ -1,0 +1,22 @@
+{
+    "name": "transitops-extensions-indexer",
+    "version": "0.0.5",
+    "description": "Indexes installed extensions for Transitops Console.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "publish:npm": "npm config set registry https://registry.npmjs.org/ && npm publish",
+        "publish:github": "npm config set '@transitops:registry' https://npm.pkg.github.com/ && npm publish"
+    },
+    "keywords": [
+        "transitops-extension-indexer",
+        "transitops"
+    ],
+    "repository": "https://github.com/transitops/transitops-extension-indexer",
+    "license": "AGPL-3.0-or-later",
+    "author": "Transitops Pte Ltd <hello@transitops.io>",
+    "dependencies": {
+        "broccoli-plugin": "^4.0.7",
+        "fast-glob": "^3.2.11"
+    }
+}

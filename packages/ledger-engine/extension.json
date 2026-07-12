@@ -1,0 +1,10 @@
+{
+    "name": "Ledger",
+    "version": "0.0.7",
+    "description": "Accounting & Invoicing Extension for Transitops",
+    "repository": "https://github.com/transitops/ledger",
+    "license": "AGPL-3.0-or-later",
+    "author": "Transitops Pte Ltd <hello@transitops.io>",
+    "engine": "package.json",
+    "api": "composer.json"
+}

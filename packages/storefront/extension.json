@@ -1,0 +1,10 @@
+{
+    "name": "Storefront",
+    "version": "0.4.16",
+    "description": "Headless Commerce & Marketplace Extension for Transitops",
+    "repository": "https://github.com/transitops/storefront",
+    "license": "AGPL-3.0-or-later",
+    "author": "Transitops Pte Ltd <hello@transitops.io>",
+    "engine": "package.json",
+    "api": "composer.json"
+}

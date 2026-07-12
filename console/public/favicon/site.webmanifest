@@ -1,0 +1,7 @@
+{
+    "name": "Transitops Console",
+    "short_name": "Transitops",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone"
+}

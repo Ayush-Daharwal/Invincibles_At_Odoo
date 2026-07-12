@@ -1,0 +1,10 @@
+{
+    "name": "AI",
+    "version": "0.0.1",
+    "description": "Transitops AI operations copilot and task automation module",
+    "repository": "https://github.com/transitops/ai",
+    "license": "AGPL-3.0-or-later",
+    "author": "Transitops <hello@transitops.io>",
+    "engine": "package.json",
+    "api": "composer.json"
+}

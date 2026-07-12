@@ -1,0 +1,1 @@
+export { default } from '@transitops/fleetops-engine/templates/maintenance/equipment/index/details/index';
