@@ -1,0 +1,18 @@
+{
+    "name": "@transitops/intl-lint",
+    "version": "0.0.1",
+    "description": "Internationalization translation file linter script for Transitops Extensions and Application",
+    "main": "index.js",
+    "scripts": {
+        "start": "node ./index.js"
+    },
+    "bin": {
+        "transitops-intl-lint": "./cli.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "js-yaml": "^4.1.0",
+        "yargs": "^17.7.2"
+    }
+}

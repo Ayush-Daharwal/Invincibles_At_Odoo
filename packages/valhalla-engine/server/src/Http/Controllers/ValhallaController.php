@@ -1,0 +1,198 @@
+<?php
+
+namespace Transitops\Valhalla\Http\Controllers;
+
+use Transitops\Http\Controllers\Controller;
+use Transitops\Valhalla\Exceptions\ValhallaException;
+use Transitops\Valhalla\Support\Utils;
+use Transitops\Valhalla\Support\Valhalla;
+use Illuminate\Http\Request;
+
+class ValhallaController extends Controller
+{
+    /**
+     * The Valhalla service instance.
+     */
+    protected Valhalla $valhalla;
+
+    /**
+     * Inject the Valhalla support class.
+     */
+    public function __construct(Valhalla $valhalla)
+    {
+        $this->valhalla = $valhalla;
+    }
+
+    /**
+     * Compute a turn-by-turn route.
+     *
+     * POST /valhalla/route
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function route(Request $request)
+    {
+        $payload = $request->all();
+        $this->applyRuntimeSettings();
+
+        try {
+            $data = $this->valhalla->route($payload);
+
+            return response()->json($data);
+        } catch (ValhallaException $e) {
+            $error = $e->getErrorData();
+
+            return response()->error(
+                $error['error'] ?? $e->getMessage(),
+                $e->getStatusCode() ?? 400
+            );
+        } catch (\Exception $e) {
+            return response()->error(
+                config('app.debug') ? $e->getMessage() : 'Valhalla API request failed.'
+            );
+        }
+    }
+
+    /**
+     * Solve an optimized route (CVRP).
+     *
+     * POST /valhalla/optimized_route
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function optimizedRoute(Request $request)
+    {
+        $payload = $request->all();
+        $this->applyRuntimeSettings();
+
+        try {
+            $data = $this->valhalla->optimizedRoute($payload);
+
+            return response()->json($data);
+        } catch (ValhallaException $e) {
+            $error = $e->getErrorData();
+
+            return response()->error(
+                $error['error'] ?? $e->getMessage(),
+                $e->getStatusCode() ?? 400
+            );
+        } catch (\Exception $e) {
+            return response()->error(
+                config('app.debug') ? $e->getMessage() : 'Valhalla API request failed.'
+            );
+        }
+    }
+
+    /**
+     * Compute an isochrone (reachable area).
+     *
+     * POST /valhalla/isochrone
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function isochrone(Request $request)
+    {
+        $payload = $request->all();
+        $this->applyRuntimeSettings();
+
+        try {
+            $data = $this->valhalla->isochrone($payload);
+
+            return response()->json($data);
+        } catch (ValhallaException $e) {
+            $error = $e->getErrorData();
+
+            return response()->error(
+                $error['error'] ?? $e->getMessage(),
+                $e->getStatusCode() ?? 400
+            );
+        } catch (\Exception $e) {
+            return response()->error(
+                config('app.debug') ? $e->getMessage() : 'Valhalla API request failed.'
+            );
+        }
+    }
+
+    /**
+     * Compute travel matrix from sources to targets.
+     *
+     * POST /valhalla/sources_to_targets
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function matrix(Request $request)
+    {
+        $payload = $request->all();
+        $this->applyRuntimeSettings();
+
+        try {
+            $data = $this->valhalla->matrix($payload);
+
+            return response()->json($data);
+        } catch (ValhallaException $e) {
+            $error = $e->getErrorData();
+
+            return response()->error(
+                $error['error'] ?? $e->getMessage(),
+                $e->getStatusCode() ?? 400
+            );
+        } catch (\Exception $e) {
+            return response()->error(
+                config('app.debug') ? $e->getMessage() : 'Valhalla API request failed.'
+            );
+        }
+    }
+
+    public function getSettings()
+    {
+        $settings = Utils::getOrganizationSettings([
+            'api_host' => null,
+            'api_key'  => null,
+        ]);
+
+        return response()->json($settings);
+    }
+
+    public function getAdminSettings()
+    {
+        $settings = Utils::getSystemSettings([
+            'api_host' => config('valhalla.base_uri', env('VALHALLA_BASE_URI', 'https://valhalla1.openstreetmap.de')),
+            'api_key'  => config('valhalla.api_key', env('VALHALLA_API_KEY')),
+        ]);
+
+        return response()->json($settings);
+    }
+
+    public function saveSettings(Request $request)
+    {
+        \Transitops\Models\Setting::configureCompany('valhalla', [
+            'api_host' => $request->input('api_host'),
+            'api_key'  => $request->input('api_key'),
+        ]);
+
+        return response()->json([
+            'status'  => 'ok',
+            'message' => 'Valhalla settings succesfully saved.',
+        ]);
+    }
+
+    public function saveAdminSettings(Request $request)
+    {
+        \Transitops\Models\Setting::configure('valhalla', [
+            'api_host' => $request->input('api_host', config('valhalla.base_uri', env('VALHALLA_BASE_URI', 'https://valhalla1.openstreetmap.de'))),
+            'api_key'  => $request->input('api_key', config('valhalla.api_key', env('VALHALLA_API_KEY'))),
+        ]);
+
+        return response()->json([
+            'status'  => 'ok',
+            'message' => 'Valhalla settings succesfully saved.',
+        ]);
+    }
+
+    protected function applyRuntimeSettings(): void
+    {
+        $this->valhalla
+            ->setBaseUri(Utils::resolveBaseUri())
+            ->setApiKey(Utils::resolveApiKey());
+    }
+}

@@ -1,0 +1,13 @@
+<?php
+
+namespace Transitops\FleetOps\Http\Filter;
+
+use Transitops\Http\Filter\Filter;
+
+class IntegratedVendorFilter extends Filter
+{
+    public function queryForInternal()
+    {
+        $this->builder->where('company_uuid', $this->session->get('company'));
+    }
+}

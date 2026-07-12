@@ -1,0 +1,10 @@
+blank_issues_enabled: true
+
+contact_links:
+  - name: Transitops Documentation
+    url: https://transitops.io/docs
+    about: Read Transitops documentation.
+
+  - name: Transitops Website
+    url: https://transitops.io
+    about: Visit the Transitops website.

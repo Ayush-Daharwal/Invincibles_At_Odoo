@@ -1,0 +1,14 @@
+{{#unless this.disabled}}
+    <div class="transitops-attribution-notice transitops-attribution-notice--{{or @placement 'standalone'}}" ...attributes>
+        <a href={{this.licensingUrl}} target="_blank" rel="noopener noreferrer" class="transitops-attribution-link">
+            {{#if @showPoweredBy}}Powered by {{/if}}Transitops
+        </a>
+        {{#if this.appVersion}}
+            <span class="transitops-attribution-version">{{this.appVersion}}</span>
+        {{/if}}
+        <span class="transitops-attribution-separator" aria-hidden="true">·</span>
+        <button type="button" class="transitops-attribution-legal-link" {{on "click" this.openLegalNotice}}>
+            Legal
+        </button>
+    </div>
+{{/unless}}

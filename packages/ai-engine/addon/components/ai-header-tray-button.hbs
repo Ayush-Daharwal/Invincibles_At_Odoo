@@ -1,0 +1,17 @@
+{{#if this.ai.isEnabled}}
+    <div class="next-user-button transitops-ai-header-tray-button" ...attributes>
+        <button
+            type="button"
+            class="transitops-ai-header-tray-button-trigger {{if (media 'isMobile') 'is-mobile'}}"
+            aria-label="Open Transitops AI"
+            {{on "click" this.togglePrompt}}
+        >
+            <span class="next-org-button-trigger transitops-ai-header-tray-button-icon flex-shrink-0">
+                <FaIcon @icon="brain" />
+            </span>
+        </button>
+        <Attach::Tooltip @class="clean" @animation="scale" @placement="bottom">
+            <InputInfo @text="Open Transitops AI" />
+        </Attach::Tooltip>
+    </div>
+{{/if}}

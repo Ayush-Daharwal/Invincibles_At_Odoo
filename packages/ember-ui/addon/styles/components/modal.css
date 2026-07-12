@@ -1,0 +1,488 @@
+@keyframes expandIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.tro--modal {
+    --tro-modal-zindex: 1055;
+    --tro-modal-width: 1024px;
+    --tro-modal-padding: 1rem;
+    --tro-modal-margin: 0.5rem;
+    --tro-modal-color: ;
+    --tro-modal-bg: #fff;
+    --tro-modal-border-color: transparent;
+    --tro-modal-border-width: 1px;
+    --tro-modal-border-radius: 0.5rem;
+    --tro-modal-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --tro-modal-inner-border-radius: calc(0.5rem - 1px);
+    --tro-modal-header-padding-x: 1rem;
+    --tro-modal-header-padding-y: 0.75rem;
+    --tro-modal-header-padding: 0.75rem 1rem;
+    --tro-modal-header-border-color: transparent;
+    --tro-modal-header-border-width: 1px;
+    --tro-modal-title-line-height: 1.5;
+    --tro-modal-footer-gap: 0.5rem;
+    --tro-modal-footer-bg: rgba(249, 250, 251, 1);
+    --tro-modal-footer-border-color: var(--tro-border-color);
+    --tro-modal-footer-border-width: 1px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1055;
+    z-index: var(--tro-modal-zindex);
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 0;
+}
+
+.tro--modal-dialog {
+    position: relative;
+    width: auto;
+    margin: var(--tro-modal-margin);
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tro--modal.fade .tro--modal-dialog {
+        transition: none;
+    }
+}
+
+.tro--modal.show .tro--modal-dialog {
+    transform: none;
+}
+
+.tro--modal.tro--modal-static .tro--modal-dialog {
+    transform: scale(1.02);
+}
+
+.tro--modal-dialog-scrollable {
+    height: calc(100% - var(--tro-modal-margin) * 2);
+}
+
+.tro--modal-dialog-scrollable .tro--modal-content {
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.tro--modal-dialog-scrollable .tro--modal-body {
+    overflow-y: auto;
+}
+
+.tro--modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - var(--tro-modal-margin) * 2);
+}
+
+.tro--modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: var(--tro-modal-color);
+    pointer-events: auto;
+    background-color: var(--tro-modal-bg);
+    background-clip: padding-box;
+    border: var(--tro-modal-border-width) solid var(--tro-modal-border-color);
+    border-radius: var(--tro-modal-border-radius);
+    outline: 0;
+    filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+}
+
+.tro--modal-backdrop {
+    @apply transition-all;
+    --tro-backdrop-zindex: 1000;
+    --tro-backdrop-bg: rgba(107, 114, 128, 0.5);
+    --tro-backdrop-opacity: 0.5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    z-index: var(--tro-backdrop-zindex);
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(107, 114, 128, 0.5);
+    background-color: var(--tro-backdrop-bg);
+}
+
+.tro--modal-backdrop.fade {
+    opacity: 0;
+}
+
+.tro--modal-backdrop.show {
+    opacity: var(--tro-backdrop-opacity);
+}
+
+.tro--modal-header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--tro-modal-header-padding);
+    border-bottom: var(--tro-modal-header-border-width) solid var(--tro-modal-header-border-color);
+    border-top-left-radius: var(--tro-modal-inner-border-radius);
+    border-top-right-radius: var(--tro-modal-inner-border-radius);
+}
+
+.tro--modal-header .btn-close {
+    padding: calc(var(--tro-modal-header-padding-y) * 0.5) calc(var(--tro-modal-header-padding-x) * 0.5);
+    margin: calc(var(--tro-modal-header-padding-y) * -0.5) calc(var(--tro-modal-header-padding-x) * -0.5) calc(var(--tro-modal-header-padding-y) * -0.5) auto;
+}
+
+.tro--modal-title {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+    color: rgba(17, 24, 39, 1);
+    margin-bottom: 0;
+}
+
+.tro--modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 0;
+}
+
+.tro--modal-footer {
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--tro-modal-header-padding);
+    background-color: var(--tro-modal-footer-bg);
+    border-top: var(--tro-modal-footer-border-width) solid var(--tro-modal-footer-border-color);
+    border-bottom-right-radius: var(--tro-modal-inner-border-radius);
+    border-bottom-left-radius: var(--tro-modal-inner-border-radius);
+}
+
+.tro--modal-footer > .modal-footer-actions {
+    display: flex;
+    align-items: center;
+}
+
+.tro--modal-footer > * {
+    margin: calc(var(--tro-modal-footer-gap) * 0.5);
+}
+
+@media (min-width: 576px) {
+    .tro--modal {
+        --tro-modal-margin: 1.75rem;
+        --tro-modal-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    .tro--modal-dialog {
+        max-width: var(--tro-modal-width);
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .tro--modal-sm {
+        --tro-modal-width: 300px;
+    }
+}
+
+@media (min-width: 992px) {
+    .tro--modal-lg,
+    .tro--modal-xl {
+        --tro-modal-width: 800px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .tro--modal-xl {
+        --tro-modal-width: 1140px;
+    }
+}
+
+.tro--modal-fullscreen {
+    width: 100vw;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+}
+
+.tro--modal-fullscreen .tro--modal-content {
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+}
+
+.tro--modal-fullscreen .tro--modal-header,
+.tro--modal-fullscreen .tro--modal-footer {
+    border-radius: 0;
+}
+
+.tro--modal-fullscreen .tro--modal-body {
+    overflow-y: auto;
+}
+
+@media (max-width: 575.98px) {
+    .tro--modal-fullscreen-sm-down {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+    .tro--modal-fullscreen-sm-down .tro--modal-content {
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+    .tro--modal-fullscreen-sm-down .tro--modal-header,
+    .tro--modal-fullscreen-sm-down .tro--modal-footer {
+        border-radius: 0;
+    }
+    .tro--modal-fullscreen-sm-down .tro--modal-body {
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .tro--modal-fullscreen-md-down {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+    .tro--modal-fullscreen-md-down .tro--modal-content {
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+    .tro--modal-fullscreen-md-down .tro--modal-header,
+    .tro--modal-fullscreen-md-down .tro--modal-footer {
+        border-radius: 0;
+    }
+    .tro--modal-fullscreen-md-down .tro--modal-body {
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .tro--modal-fullscreen-lg-down {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+    .tro--modal-fullscreen-lg-down .tro--modal-content {
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+    .tro--modal-fullscreen-lg-down .tro--modal-header,
+    .tro--modal-fullscreen-lg-down .tro--modal-footer {
+        border-radius: 0;
+    }
+    .tro--modal-fullscreen-lg-down .tro--modal-body {
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .tro--modal-fullscreen-xl-down {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+    .tro--modal-fullscreen-xl-down .tro--modal-content {
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+    .tro--modal-fullscreen-xl-down .tro--modal-header,
+    .tro--modal-fullscreen-xl-down .tro--modal-footer {
+        border-radius: 0;
+    }
+    .tro--modal-fullscreen-xl-down .tro--modal-body {
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 1399.98px) {
+    .tro--modal-fullscreen-xxl-down {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+    }
+    .tro--modal-fullscreen-xxl-down .tro--modal-content {
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+    .tro--modal-fullscreen-xxl-down .tro--modal-header,
+    .tro--modal-fullscreen-xxl-down .tro--modal-footer {
+        border-radius: 0;
+    }
+    .tro--modal-fullscreen-xxl-down .tro--modal-body {
+        overflow-y: auto;
+    }
+}
+
+.tro--modal.roll-key-modal .tro--modal-dialog .tro--modal-content {
+    width: 30rem;
+}
+
+.tro--modal.roll-key-modal .tro--modal-dialog .tro--modal-content .tro--modal-body {
+    @apply text-sm;
+}
+
+.tro--modal.tro--default-modal.modal-2xl > .tro--modal-dialog > .tro--modal-content,
+.tro--modal.modal-2xl > .tro--modal-dialog > .tro--modal-content {
+    width: 72rem;
+}
+
+.tro--modal.tro--default-modal.modal-xl > .tro--modal-dialog > .tro--modal-content,
+.tro--modal.modal-xl > .tro--modal-dialog > .tro--modal-content {
+    width: 60rem;
+}
+
+.tro--modal.tro--default-modal.modal-lg > .tro--modal-dialog > .tro--modal-content,
+.tro--modal.modal-lg > .tro--modal-dialog > .tro--modal-content {
+    width: 50rem;
+}
+
+.tro--modal.tro--default-modal.modal-base > .tro--modal-dialog > .tro--modal-content,
+.tro--modal.modal-base > .tro--modal-dialog > .tro--modal-content {
+    width: 40rem;
+}
+
+.tro--modal.tro--default-modal.modal-sm > .tro--modal-dialog > .tro--modal-content,
+.tro--modal.modal-sm > .tro--modal-dialog > .tro--modal-content {
+    width: 30rem;
+}
+
+.tro--modal.tro--default-modal.modal-xs > .tro--modal-dialog > .tro--modal-content,
+.tro--modal.modal-xs > .tro--modal-dialog > .tro--modal-content {
+    width: 20rem;
+}
+
+.tro--modal.tro--default-modal {
+    z-index: 900;
+    @apply fixed inset-0 w-screen h-screen overflow-hidden overflow-y-auto;
+}
+
+.tro--modal.tro--default-modal > .tro--modal-dialog {
+    animation: expandIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    @apply flex items-center justify-center w-full h-full mx-auto;
+}
+
+.tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content {
+    width: 40rem;
+    overflow: visible;
+    @apply inline-block text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl opacity-100;
+}
+
+.tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header {
+    @apply flex items-center justify-between px-4 py-3 rounded-t-lg;
+}
+
+.tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header .tro--modal-title {
+    @apply text-lg font-medium leading-6 text-gray-900;
+}
+
+.tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header button.close {
+    @apply text-2xl outline-none;
+}
+
+.tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header button.close:hover,
+.tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header button.close:active,
+.tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header button.close:focus {
+    @apply outline-none;
+}
+
+.tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header button.close:hover {
+    @apply opacity-50 cursor-pointer;
+}
+
+.tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-body > .modal-body-container {
+    @apply px-4 py-2;
+}
+
+.tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-footer {
+    @apply flex items-center justify-end px-4 py-3 rounded-b-lg bg-gray-50;
+}
+
+@media (max-width: 767px) {
+    .tro--modal.tro--default-modal > .tro--modal-dialog > .modal-content {
+        margin-top: 0px;
+    }
+
+    .tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header > button.close {
+        @apply w-7 h-7 bg-red-400 text-white flex items-center justify-center rounded-full p-0 m-0;
+    }
+
+    body[data-theme='dark'] .tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header > button.close {
+        @apply bg-red-500;
+    }
+}
+
+.tro--default-modal + .tro--modal-backdrop {
+    z-index: 850;
+    @apply fixed inset-0 w-screen h-screen overflow-hidden overflow-y-auto transition-opacity ease-in-out bg-gray-500 opacity-50;
+}
+
+.tro--default-modal + .tro--modal-backdrop.show {
+    @apply opacity-50;
+}
+
+body[data-theme='dark'] .tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content {
+    @apply bg-gray-900;
+}
+
+body[data-theme='dark'] .tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header {
+    @apply text-gray-100;
+}
+
+body[data-theme='dark'] .tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header .tro--modal-title {
+    @apply text-gray-100;
+}
+
+body[data-theme='dark'] .tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header button.close {
+    @apply text-gray-100;
+}
+
+body[data-theme='dark'] .tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header {
+    @apply bg-gray-900;
+}
+
+body[data-theme='dark'] .tro--modal.tro--default-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-footer {
+    @apply bg-gray-800;
+}
+
+.tro--confirm-modal.tro--modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header,
+.tro--alert-modal.tro--modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header {
+    padding: 0.35rem;
+}
+
+.tro--confirm-modal.tro--modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header .close,
+.tro--alert-modal.tro--modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header .close {
+    display: none;
+}
+
+.tro--confirm-modal.tro--modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-body > .modal-body-container {
+    @apply px-4 py-2;
+}
+
+.tro--default-modal.tro-resource-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-header {
+    @apply border-b border-gray-200 dark:border-gray-700;
+}
+
+.tro--default-modal.tro-resource-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-body {
+    @apply bg-gray-100 dark:bg-gray-800;
+}
+
+body[data-theme="light"] .tro--default-modal.tro-resource-modal > .tro--modal-dialog > .tro--modal-content > .tro--modal-footer {
+    @apply bg-gray-100;
+}

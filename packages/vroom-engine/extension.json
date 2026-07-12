@@ -1,0 +1,10 @@
+{
+    "name": "vroom",
+    "version": "0.0.4",
+    "description": "VROOM route optimization machine integration",
+    "repository": "https://github.com/transitops/vroom",
+    "license": "AGPL-3.0-or-later",
+    "author": "Transitops Pte Ltd <hello@transitops.io>",
+    "engine": "package.json",
+    "api": "composer.json"
+}

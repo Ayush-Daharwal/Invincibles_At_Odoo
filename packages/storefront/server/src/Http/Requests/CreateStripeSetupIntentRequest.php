@@ -1,0 +1,31 @@
+<?php
+
+namespace Transitops\Storefront\Http\Requests;
+
+use Transitops\Http\Requests\TransitopsRequest;
+use Transitops\Storefront\Rules\CustomerExists;
+
+class CreateStripeSetupIntentRequest extends TransitopsRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return session('storefront_key');
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'customer'     => ['required', new CustomerExists()],
+        ];
+    }
+}

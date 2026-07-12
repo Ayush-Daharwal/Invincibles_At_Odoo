@@ -1,0 +1,10 @@
+{
+    "name": "Registry Bridge",
+    "version": "0.1.9",
+    "description": "Internal Bridge between Transitops API and Extensions Registry",
+    "repository": "https://github.com/transitops/registry-bridge",
+    "license": "AGPL-3.0-or-later",
+    "author": "Transitops Pte Ltd <hello@transitops.io>",
+    "engine": "package.json",
+    "api": "composer.json"
+}
