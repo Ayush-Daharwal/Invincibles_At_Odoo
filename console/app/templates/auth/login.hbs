@@ -80,12 +80,18 @@
         </div>
 
         <div class="animate-element animate-delay-600 mt-6">
-            <Button
-                @buttonType="submit"
-                @text={{t "auth.login.form.sign-in-button"}}
-                @isLoading={{this.isLoading}}
-                @wrapperClass="w-full rounded-2xl bg-violet-600 py-4 font-medium text-white hover:bg-violet-700 transition-colors flex justify-center items-center shadow-md shadow-violet-500/20"
-            />
+            <button
+                type="submit"
+                disabled={{this.isLoading}}
+                class="w-full rounded-2xl bg-violet-600 py-4 font-medium text-white hover:bg-violet-700 active:scale-[0.98] transition-all shadow-md shadow-violet-500/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+                {{#if this.isLoading}}
+                    <span class="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                    Signing in...
+                {{else}}
+                    {{t "auth.login.form.sign-in-button"}}
+                {{/if}}
+            </button>
         </div>
         
         <div class="animate-element animate-delay-700 relative flex items-center justify-center mt-6">
